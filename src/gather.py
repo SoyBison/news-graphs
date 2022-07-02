@@ -44,6 +44,7 @@ def record():
 
 
 def prune():
+    """Doesn't work properly on psql right now..."""
     too_old = datetime.datetime.now() - datetime.timedelta(days=28)
     for table in META.sorted_tables:
         ENGINE.execute(table.delete().where(table.c.timestamp <= too_old))
@@ -52,4 +53,4 @@ def prune():
 if __name__ == '__main__':
     setup()
     record()
-    prune()
+    # prune()
