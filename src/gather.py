@@ -19,7 +19,7 @@ def record():
     source_ids = map(lambda d: d['source']['id'], articles)
     bylines = map(lambda d: d["author"], articles)
     urls = map(lambda d: d["url"], articles)
-    pubtimes = map(lambda d: d["publishedAt"], articles)
+    pubtimes = map(lambda d: pd.Timestamp(d["publishedAt"]), articles)
     sources = map(lambda d: d["source"]['name'], articles)
     titles = map(lambda d: d["title"], articles)
     descs = map(lambda d: d["description"], articles)
