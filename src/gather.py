@@ -3,11 +3,14 @@ import numpy as np
 import requests
 import pandas as pd
 import json
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from data import setup
+import datetime
 
 eng_url = os.getenv("DATABASE_URL")
 ENGINE = create_engine(eng_url, echo=False)
+META = MetaData()
+META.reflect(ENGINE)
 
 
 def record():
@@ -40,6 +43,13 @@ def record():
     transitory_df.to_sql("articles", con=ENGINE, index=False, if_exists="append")
 
 
+def prune():
+    too_old = datetime.datetime.now() - datetime.timedelta(days=28)
+    for table in META.sorted_tables:
+        ENGINE.execute(table.delete().where(table.c.timestamp <= too_old))
+
+
 if __name__ == '__main__':
     setup()
     record()
+    prune()
