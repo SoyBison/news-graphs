@@ -1,4 +1,5 @@
 import os
+import numpy as np
 import requests
 import pandas as pd
 import json
@@ -34,18 +35,9 @@ def record():
         "description": descs,
         "url_to_image": imgs,
     })
-    transitory_df.to_sql("temp_articles", con=ENGINE, index=False, if_exists="replace")
-
-    with ENGINE.begin() as cn:
-        sql = """
-            INSERT INTO articles (source_id, author, url, timestamp, source, title, description, url_to_image)
-            SELECT t.source_id, t.author, t.url, t.timestamp, t.source, t.title, t.description, t.url_to_image
-            FROM temp_articles t
-            WHERE NOT EXISTS
-                (SELECT 1 FROM articles f
-                 WHERE t.url = f.url)
-        """
-        cn.execute(sql)
+    existing_urls = pd.read_sql("SELECT url FROM articles", con=ENGINE)
+    transitory_df = transitory_df[np.isin(transitory_df["url"], set(existing_urls["url"].unique()))]
+    transitory_df.to_sql("articles", con=ENGINE, index=False, if_exists="append")
 
 
 if __name__ == '__main__':
