@@ -39,12 +39,11 @@ def record():
         "url_to_image": imgs,
     })
     existing_urls = pd.read_sql("SELECT url FROM articles", con=ENGINE)
-    transitory_df = transitory_df[np.isin(transitory_df["url"], set(existing_urls["url"].unique()))]
+    transitory_df = transitory_df[np.logical_not(np.isin(transitory_df["url"], set(existing_urls["url"].unique())))]
     transitory_df.to_sql("articles", con=ENGINE, index=False, if_exists="append")
 
 
 def prune():
-    """Doesn't work properly on psql right now..."""
     too_old = datetime.datetime.now() - datetime.timedelta(days=28)
     for table in META.sorted_tables:
         ENGINE.execute(table.delete().where(table.c.timestamp <= too_old))
@@ -53,4 +52,4 @@ def prune():
 if __name__ == '__main__':
     setup()
     record()
-    # prune()
+    prune()
