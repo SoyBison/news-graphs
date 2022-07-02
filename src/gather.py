@@ -39,7 +39,8 @@ def record():
         "url_to_image": imgs,
     })
     existing_urls = pd.read_sql("SELECT url FROM articles", con=ENGINE)
-    transitory_df = transitory_df[np.logical_not(np.isin(transitory_df["url"], set(existing_urls["url"].unique())))]
+    good_urls = set(existing_urls['url']) - set(transitory_df['url'])
+    transitory_df = transitory_df[np.isin(transitory_df['url'], good_urls)]
     transitory_df.to_sql("articles", con=ENGINE, index=False, if_exists="append")
 
 
