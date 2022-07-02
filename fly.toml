@@ -1,4 +1,4 @@
-# fly.toml file generated for datastream on 2022-07-01T15:06:24-04:00
+# fly.toml file generated for datastream on 2022-07-01T16:15:13-04:00
 
 app = "datastream"
 kill_signal = "SIGINT"
@@ -6,6 +6,7 @@ kill_timeout = 5
 processes = []
 
 [env]
+  PORT = "8080"
 
 [experimental]
   allowed_public_ports = []
@@ -36,3 +37,7 @@ processes = []
     interval = "15s"
     restart_limit = 0
     timeout = "2s"
+
+[[statics]]
+  guest_path = "/app/public"
+  url_prefix = "/static/"
