@@ -30,7 +30,7 @@ class NewsStream(Resource):
             "Url": urls,
             "Timestamp": pubtimes,
         })
-        resp = make_response(transitory_df.to_csv())
+        resp = make_response(transitory_df.to_csv(index=False))
         resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
         resp.headers["Content-Type"] = "text/csv"
         return resp
