@@ -9,14 +9,19 @@ ENGINE = create_engine(eng_url, echo=False)
 
 class Article(Base):
     __tablename__ = 'articles'
-    url = Column(String, primary_key=True)
-    author = Column(String)
-    source_id = Column(String)
-    source = Column(String)
+    uri = Column(String, primary_key=True)
+    byline = Column(String)
     timestamp = Column(DateTime)
     title = Column(String)
-    description = Column(String)
-    url_to_image = Column(String)
+    abstract = Column(String)
+    section = Column(String)
+    subsection = Column(String)
+    material_type = Column(String)
+    url = Column(String)
+    des_facet = Column(String)
+    per_facet = Column(String)
+    geo_facet = Column(String)
+    org_facet = Column(String)
 
 
 def setup():
