@@ -2,7 +2,7 @@ from flask import Flask, render_template, make_response
 import pandas as pd
 from flask_restful import Resource, Api
 from dotenv import load_dotenv
-from .data import ENGINE
+from data import ENGINE
 import os
 
 app = Flask(__name__)
