@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 import json
 from sqlalchemy import create_engine
-from data import setup
+from .data import setup
 
 eng_url = os.getenv("DATABASE_URL")
 ENGINE = create_engine(eng_url, echo=False)
