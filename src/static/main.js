@@ -3,7 +3,7 @@ margin = ({top: 10, right: 40, bottom: 60, left: 30})
 height = 500 + margin.top + margin.bottom
 width = 800 + margin.left + margin.right
 
-data = d3.csv("https://news-graphs.onrender.com/data")
+data = d3.csv(window.location.href + "/data")
     .then(data => {
         const svg = d3
             .select(".datavis")
